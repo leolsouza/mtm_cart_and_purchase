@@ -22,5 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('users', UserController::class);
+
 Route::apiResource('carts', CartController::class);
+Route::post('carts/{cart}/add', [CartController::class, 'attachPurchase']);
+
 Route::apiResource('purchases', PurchaseController::class);

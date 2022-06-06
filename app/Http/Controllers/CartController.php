@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
-use App\Models\Cart;
+use App\Http\Requests\AttachPurchaseRequest;
 
 class CartController extends Controller
 {
@@ -15,7 +16,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        return Cart::with('user')->get();
+        return Cart::with('user','purchases')->get();
     }
 
     /**
@@ -65,5 +66,10 @@ class CartController extends Controller
     public function destroy(Cart $cart)
     {
         $cart->delete();
+    }
+
+    public function attachPurchase(Cart $cart, AttachPurchaseRequest $request)
+    {
+        return $cart->purchases()->attach(($request->purchase_id));
     }
 }
