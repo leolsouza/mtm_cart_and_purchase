@@ -70,6 +70,24 @@ class CartController extends Controller
 
     public function attachPurchase(Cart $cart, AttachPurchaseRequest $request)
     {
-        return $cart->purchases()->attach(($request->purchase_id));
+        $item = $cart->purchases->find($request->purchase_id);
+
+        if($item)
+            {
+                $qty = $item->pivot->qty;
+                $item->pivot->update([
+                    'qty' => $qty+$request->qty
+                ]);
+            }
+        else
+            {
+                $cart->purchases()->attach(
+                    $request->purchase_id, [
+                        'qty' => $request->qty
+                    ]);
+            }
+
+        return $cart->load('purchases');
+
     }
 }

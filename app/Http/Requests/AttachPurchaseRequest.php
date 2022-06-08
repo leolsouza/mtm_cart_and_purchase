@@ -24,7 +24,8 @@ class AttachPurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'purchase_id' => ['array','required']
+            'purchase_id' => ['required'],
+            'qty' => ['integer','required']
         ];
     }
 }
